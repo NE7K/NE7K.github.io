@@ -9,7 +9,9 @@
     "role": "애플리케이션 개발자",
     "summary": "사용자 경험을 우선으로, 빠르게 검증하고 안정적으로 운영하는 앱을 만듭니다. 기획-개발-배포-운영 전 과정을 책임지고 개선하는 것을 선호합니다.",
     "location": "Korea",
-    "email": "your@email.com",
+    "email": "neighborsoft@gmail.com",
+    "phone": "010-9950-5187",
+    "discord": "NE7K",
     "avatar": "app/profile.jpg",
     "links": [
       { "label": "GitHub", "url": "https://github.com/NE7K" },
@@ -27,69 +29,109 @@
   },
   "projects": [
     {
-      "name": "HabitFlow",
+      "name": "UpStock-Python",
+      "type": "AI/데이터 분석",
+      "year": "2025",
+      "status": "완료",
+      "oneLiner": "NLP 기반 감성 분석과 시장 지표를 통합하여 미국 증시 심리를 정량화하는 시스템",
+      "problem": "소셜 미디어로 인해 정보 확산 속도가 빨라져 단일 뉴스나 트윗이 시장 변동성을 유발하지만, 이를 정량적으로 평가할 방법이 부족합니다.",
+      "solution": "뉴스/블로그/댓글을 NLP 모델로 분석하고, VIX/RSI/이동평균선 등 기술적 지표를 통합하여 Market Sentiment Index(0-100)를 산출합니다.",
+      "impact": ["시장 심리를 0-100 수치로 정량화", "NLP와 전통적 지표의 통합 분석", "실시간 뉴스 감성 분석 및 예측 결과 DB 저장"],
+      "stack": ["Python", "TensorFlow", "Bidirectional LSTM", "Supabase", "NLP"],
+      "features": [
+        "NLP 기반 뉴스/블로그/댓글 감성 분석",
+        "VIX, RSI, MACD 등 기술적 지표 통합",
+        "Market Sentiment Index(0-100) 산출",
+        "Supabase를 통한 예측 결과 저장 및 관리"
+      ],
+      "links": {
+        "repo": "https://github.com/NE7K/UpStock-Python",
+        "demo": "",
+        "store": ""
+      },
+      "images": ["app/IMG.jpg"]
+    },
+    {
+      "name": "UpStock-Flutter",
       "type": "모바일 앱",
       "year": "2025",
       "status": "개발 중",
-      "oneLiner": "습관을 기록하고, 리마인더와 통계로 지속을 돕는 트래커",
-      "problem": "습관 앱이 많지만, 입력 동선이 길거나 보상이 약해 쉽게 이탈합니다.",
-      "solution": "한 화면 입력 + 가벼운 리마인더 + 주/월 통계로 ‘지속’을 설계했습니다.",
-      "impact": ["입력 단계 축소(원탭 기록)", "주/월 리포트로 재방문 유도", "오프라인 캐시로 안정성 향상"],
-      "stack": ["Flutter", "Dart", "SQLite", "Notifications"],
+      "oneLiner": "UpStock-Python의 모바일 버전으로 미국 증시 심리 지수를 실시간으로 확인할 수 있는 앱",
+      "problem": "주식 시장 심리 분석 도구가 데스크톱 중심이라 이동 중 확인이 어렵습니다.",
+      "solution": "Flutter로 개발하여 iOS/Android에서 Market Sentiment Index를 실시간으로 확인하고, 푸시 알림으로 중요한 시장 변화를 알립니다.",
+      "impact": ["모바일에서 실시간 시장 심리 확인", "크로스 플랫폼 지원으로 개발 효율성 향상"],
+      "stack": ["Flutter", "Dart", "REST API", "Firebase"],
       "features": [
-        "원탭 습관 체크/메모",
-        "주/월 통계(연속 기록, 성공률)",
-        "리마인더/알림 스케줄",
-        "오프라인 우선 저장"
+        "Market Sentiment Index 실시간 조회",
+        "뉴스 감성 분석 결과 확인",
+        "시장 지표(VIX, RSI, MACD) 시각화",
+        "푸시 알림으로 중요 시장 이벤트 알림"
       ],
       "links": {
-        "repo": "",
+        "repo": "https://github.com/NE7K/UpStock-Flutter",
         "demo": "",
         "store": ""
       },
       "images": ["app/IMG.jpg"]
     },
     {
-      "name": "PocketLedger",
-      "type": "모바일 앱",
-      "year": "2025",
-      "status": "프로토타입",
-      "oneLiner": "가계부를 ‘분류’보다 ‘패턴’ 중심으로 보여주는 비용 분석 앱",
-      "problem": "지출 분류는 귀찮고 누락이 잦아 데이터 품질이 떨어집니다.",
-      "solution": "반복 결제 감지/자동 태깅으로 입력 부담을 줄이고, 패턴 기반 인사이트를 제공합니다.",
-      "impact": ["자동 태깅으로 입력 부담 감소", "반복 결제 알림으로 불필요 지출 인지"],
-      "stack": ["Flutter", "Dart", "Charts", "Local Storage"],
-      "features": [
-        "반복 결제 감지",
-        "자동 태깅/카테고리 추천",
-        "기간별/항목별 차트",
-        "CSV 내보내기"
-      ],
-      "links": {
-        "repo": "",
-        "demo": "",
-        "store": ""
-      },
-      "images": ["app/IMG.jpg"]
-    },
-    {
-      "name": "StudySprint",
-      "type": "웹/앱",
+      "name": "KR-School-Database",
+      "type": "데이터베이스",
       "year": "2024",
-      "status": "운영",
-      "oneLiner": "학습 계획을 타임블록으로 만들고, 집중 세션을 기록하는 플래너",
-      "problem": "계획은 세우지만 실행/회고가 연결되지 않아 성장이 느립니다.",
-      "solution": "타임블록(계획) + 포모도로(실행) + 회고(피드백) 루프를 한 곳에서 제공합니다.",
-      "impact": ["계획/실행/회고의 단절 해소", "실행 데이터 기반 회고 템플릿 제공"],
-      "stack": ["Web", "TypeScript", "Firebase"],
+      "status": "완료",
+      "oneLiner": "한국의 모든 학교 정보를 체계적으로 관리하는 데이터베이스 시스템",
+      "problem": "학교 정보가 여러 소스에 분산되어 있어 통합 조회와 분석이 어렵습니다.",
+      "solution": "MS Access를 활용하여 학교, 주소, 시도교육청, 교육지원청 테이블을 정규화하고, JOIN 쿼리와 보고서 폼으로 데이터를 체계적으로 관리합니다.",
+      "impact": ["한국 전체 학교 데이터 통합 관리", "시도교육청별 통계 및 분석 가능", "쿼리 최적화로 조회 성능 개선(30초→20초)"],
+      "stack": ["MS Access", "SQL", "Database Design"],
       "features": [
-        "타임블록 캘린더",
-        "포모도로 타이머/세션 로그",
-        "회고 템플릿",
-        "기기 간 동기화"
+        "학교/주소/시도교육청/교육지원청 테이블 설계",
+        "6가지 주요 쿼리 및 보고서 구현",
+        "학교별 운영 현황 통계",
+        "시도교육청별 학교 분포 분석"
       ],
       "links": {
-        "repo": "",
+        "repo": "https://github.com/NE7K/KR-School-Database",
+        "demo": "",
+        "store": ""
+      },
+      "images": ["app/IMG.jpg"]
+    },
+    {
+      "name": "Farmy",
+      "type": "웹/앱",
+      "year": "2025",
+      "status": "개발 중",
+      "oneLiner": "농장 관리 및 농작물 생산 효율성을 향상시키는 플랫폼",
+      "problem": "농장 관리 정보가 비체계적이고 수작업으로 관리되어 효율성이 떨어집니다.",
+      "solution": "디지털 플랫폼으로 농작물 재배 일정, 수확 기록, 판매 관리 등을 통합하여 농장 운영을 체계화합니다.",
+      "impact": ["농장 관리 정보의 디지털화", "생산 계획 및 수확 기록 체계화"],
+      "stack": ["Web", "Database"],
+      "features": [
+        "농작물 재배 일정 관리",
+        "수확 기록 및 통계",
+        "판매 관리"
+      ],
+      "links": {
+        "repo": "https://github.com/NE7K/Farmy",
+        "demo": "",
+        "store": ""
+      },
+      "images": ["app/IMG.jpg"]
+    },
+    {
+      "name": "StockCopy",
+      "type": "앱",
+      "year": "2025",
+      "status": "개발 중",
+      "oneLiner": "주식 거래 전략을 분석하고 공유하는 플랫폼",
+      "problem": "개발 중인 프로젝트입니다.",
+      "solution": "개발 중인 프로젝트입니다.",
+      "impact": ["개발 중"],
+      "stack": [],
+      "features": [],
+      "links": {
+        "repo": "https://github.com/NE7K/StockCopy",
         "demo": "",
         "store": ""
       },

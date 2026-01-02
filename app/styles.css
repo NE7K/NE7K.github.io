@@ -127,11 +127,11 @@ a:hover{ text-decoration: underline; text-underline-offset: 3px; }
   transform: scale(0.98);
 }
 .theme-toggle__icon{
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 20%, transparent);
+  font-size: 16px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .theme-toggle__label{
   font-size: 12px;
@@ -320,11 +320,33 @@ a:hover{ text-decoration: underline; text-underline-offset: 3px; }
 .project{
   display: grid;
   gap: 14px;
-  padding: 18px;
+  padding: 0;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border);
   background: var(--panel-2);
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  overflow: hidden;
+}
+.project__image{
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--panel);
+}
+.project__image img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.project > *:not(.project__image){
+  padding: 0 18px;
+}
+.project > *:first-child:not(.project__image){
+  padding-top: 18px;
+}
+.project > *:last-child{
+  padding-bottom: 18px;
 }
 .project:hover{
   transform: translateY(-4px);
@@ -415,6 +437,21 @@ a:hover{ text-decoration: underline; text-underline-offset: 3px; }
     color-mix(in srgb, var(--accent) 22%, var(--panel-2)),
     color-mix(in srgb, var(--accent2) 18%, var(--panel-2))
   );
+  text-decoration: none;
+}
+.pill--accent:hover{
+  text-decoration: none;
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+.pill{
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.pill__hint{
+  margin-left: 6px;
+  font-family: var(--mono);
+  font-size: 15px;
+  opacity: 0.8;
 }
 
 .two-col{

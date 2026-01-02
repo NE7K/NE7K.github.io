@@ -28,15 +28,30 @@ function el(tag, attrs = {}, children = []) {
   return node;
 }
 
+function updateThemeIcon(theme) {
+  const iconEl = qs(".theme-toggle__icon");
+  if (!iconEl) return;
+  // 현재 테마가 light면 다크 모드로 전환할 수 있도록 달 아이콘 표시
+  // 현재 테마가 dark면 라이트 모드로 전환할 수 있도록 태양 아이콘 표시
+  if (theme === "light") {
+    iconEl.textContent = "🌙";
+  } else {
+    iconEl.textContent = "☀️";
+  }
+}
+
 function setTheme(mode) {
   const html = document.documentElement;
   if (mode === "light" || mode === "dark") {
     html.setAttribute("data-theme", mode);
     localStorage.setItem("theme", mode);
+    updateThemeIcon(mode);
     return;
   }
   html.removeAttribute("data-theme");
   localStorage.removeItem("theme");
+  const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  updateThemeIcon(prefersDark ? "dark" : "light");
 }
 
 function initThemeToggle() {
@@ -44,7 +59,12 @@ function initThemeToggle() {
   if (!btn) return;
 
   const saved = localStorage.getItem("theme");
-  if (saved) setTheme(saved);
+  if (saved) {
+    setTheme(saved);
+  } else {
+    const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    updateThemeIcon(prefersDark ? "dark" : "light");
+  }
 
   btn.addEventListener("click", () => {
     const current = document.documentElement.getAttribute("data-theme");
@@ -138,16 +158,22 @@ function renderProjects(target, projects) {
     ].filter((l) => isNonEmptyString(l.url));
 
     linkItems.forEach((l) => {
-      linkRow.appendChild(el("a", { class: "btn", href: l.url, target: "_blank", rel: "noreferrer" }, [
+      linkRow.appendChild(el("a", { class: "pill pill--accent", href: l.url, target: "_blank", rel: "noreferrer" }, [
         safeText(l.label),
-        el("span", { class: "btn__hint", text: "↗" }),
+        el("span", { class: "pill__hint", text: "↗" }),
       ]));
     });
 
     const pillRow = el("div", { class: "pill-row" }, []);
     stack.forEach((s) => pillRow.appendChild(el("span", { class: "pill", text: safeText(s) })));
 
+    const images = Array.isArray(p?.images) ? p.images.filter(isNonEmptyString) : [];
+    const imageEl = images.length > 0 ? el("div", { class: "project__image" }, [
+      el("img", { src: images[0], alt: safeText(p?.name || "프로젝트 이미지"), loading: "lazy" }),
+    ]) : null;
+
     const card = el("article", { class: "project" }, [
+      imageEl,
       el("div", { class: "project__head" }, [
         el("h3", { class: "project__name", text: safeText(p?.name || "") }),
         el("div", { class: "project__meta", text: meta }),
@@ -188,26 +214,28 @@ function renderContact(target, profile) {
   target.innerHTML = "";
 
   const email = profile?.email;
+  const phone = profile?.phone;
+  const discord = profile?.discord;
   const links = Array.isArray(profile?.links) ? profile.links : [];
 
-  const left = el("div", {}, [
-    el("div", { class: "pill-row" }, [
-      el("span", { class: "pill pill--accent", text: safeText(profile?.role || "") }),
-      isNonEmptyString(profile?.location) ? el("span", { class: "pill", text: safeText(profile.location) }) : null,
-    ].filter(Boolean)),
-  ]);
+  const contactItems = el("div", { class: "pill-row" }, []);
 
-  const right = el("div", { class: "pill-row" }, []);
-  if (isNonEmptyString(email) && !email.includes("your@email.com")) {
-    right.appendChild(el("a", { class: "btn btn--primary", href: `mailto:${email}`, text: email }));
+  if (isNonEmptyString(phone)) {
+    contactItems.appendChild(el("a", { class: "btn btn--primary", href: `tel:${phone.replace(/-/g, "")}`, text: `📞 ${phone}` }));
   }
+  if (isNonEmptyString(email) && !email.includes("your@email.com")) {
+    contactItems.appendChild(el("a", { class: "btn", href: `mailto:${email}`, text: `✉️ ${email}` }));
+  }
+  if (isNonEmptyString(discord)) {
+    contactItems.appendChild(el("span", { class: "btn", text: `💬 Discord: ${discord}` }));
+  }
+
   links.forEach((l) => {
     if (!l || !isNonEmptyString(l.url)) return;
-    right.appendChild(el("a", { class: "btn", href: l.url, target: "_blank", rel: "noreferrer", text: safeText(l.label || l.url) }));
+    contactItems.appendChild(el("a", { class: "btn", href: l.url, target: "_blank", rel: "noreferrer", text: safeText(l.label || l.url) }));
   });
 
-  target.appendChild(left);
-  target.appendChild(right);
+  target.appendChild(contactItems);
 }
 
 async function loadData() {
