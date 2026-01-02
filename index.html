@@ -3,63 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NE7K | GitHub Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            text-align: center;
-        }
-        header {
-            background: #333;
-            color: white;
-            padding: 20px;
-            font-size: 24px;
-        }
-        section {
-            margin: 50px auto;
-            max-width: 800px;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        a {
-            text-decoration: none;
-            color: #007bff;
-        }
-        footer {
-            margin-top: 20px;
-            padding: 10px;
-            background: #222;
-            color: white;
-            font-size: 14px;
-        }
-    </style>
+    <title>포트폴리오</title>
+    <meta name="description" content="애플리케이션 프로젝트를 소개하는 포트폴리오 페이지입니다.">
+    <meta name="color-scheme" content="light dark">
+    <link rel="icon" href="app/basic.png">
+    <link rel="preload" as="image" href="app/profile.jpg">
+    <link rel="stylesheet" href="app/styles.css">
 </head>
 <body>
+    <a class="skip" href="#main">본문으로 바로가기</a>
 
-    <header>
-        🚀 NE7K의 GitHub 페이지 🚀
+    <header class="topbar">
+        <a class="brand" href="#intro" aria-label="홈으로">NE7K</a>
+
+        <nav class="nav" aria-label="주요 섹션">
+            <a href="#intro">소개</a>
+            <a href="#projects">프로젝트</a>
+            <a href="#skills">스킬</a>
+            <a href="#experience">경력</a>
+            <a href="#contact">연락</a>
+        </nav>
+
+        <button class="theme-toggle" type="button" id="themeToggle" aria-label="테마 전환">
+            <span class="theme-toggle__icon" aria-hidden="true"></span>
+            <span class="theme-toggle__label">테마</span>
+        </button>
     </header>
 
-    <section>
-        <h1>Welcome to NE7K's GitHub Page</h1>
-        <p>이 페이지는 <strong>NE7K</strong>의 프로젝트와 개발 관련 정보들을 위한 공간입니다.</p>
-        <p>자세한 내용은 아래 링크를 참고하세요!</p>
+    <main id="main" class="container">
+        <section id="intro" class="hero">
+            <div class="hero__copy">
+                <p class="eyebrow" id="profileRole">앱 개발자</p>
+                <h1 class="hero__title" id="profileName">포트폴리오</h1>
+                <p class="hero__tagline" id="profileTagline">
+                    애플리케이션 프로젝트를 빠르게 전달할 수 있도록, 카드 기반으로 정리했습니다.
+                </p>
 
-        <h2>📌 Links</h2>
-        <p>
-            🔗 <a href="https://github.com/NE7K" target="_blank">GitHub Profile</a><br>
-            🌍 <a href="https://ne7k.github.io" target="_blank">GitHub Pages</a>
-        </p>
-    </section>
+                <div class="hero__actions" id="profileLinks"></div>
+                <div class="hero__meta" id="profileMeta"></div>
+            </div>
 
-    <footer>
-        © 2025 NE7K. All rights reserved.
-    </footer>
+            <div class="hero__media">
+                <div class="avatar">
+                    <img id="profileAvatar" src="app/profile.jpg" alt="프로필 사진" width="320" height="320" loading="eager" decoding="async">
+                </div>
+                <ul class="highlights" id="profileHighlights" aria-label="핵심 요약"></ul>
+            </div>
+        </section>
 
+        <section id="projects" class="section">
+            <div class="section__head">
+                <h2>프로젝트</h2>
+                <p class="section__sub">핵심 기능/스택/성과를 한눈에 볼 수 있게 정리했습니다.</p>
+            </div>
+
+            <div class="grid" id="projectGrid" aria-label="프로젝트 목록"></div>
+        </section>
+
+        <section id="skills" class="section">
+            <div class="section__head">
+                <h2>스킬</h2>
+                <p class="section__sub">주로 사용하는 기술과 도구입니다.</p>
+            </div>
+
+            <div class="two-col">
+                <div class="card">
+                    <h3 class="card__title">핵심</h3>
+                    <div class="pill-row" id="skillsPrimary"></div>
+                </div>
+                <div class="card">
+                    <h3 class="card__title">도구 / 협업</h3>
+                    <div class="pill-row" id="skillsTools"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="section">
+            <div class="section__head">
+                <h2>경력</h2>
+                <p class="section__sub">주요 역할과 임팩트를 중심으로 작성했습니다.</p>
+            </div>
+            <div class="timeline" id="experienceTimeline" aria-label="경력 타임라인"></div>
+        </section>
+
+        <section id="contact" class="section">
+            <div class="section__head">
+                <h2>연락</h2>
+                <p class="section__sub">협업/의뢰/채용 문의를 환영합니다.</p>
+            </div>
+
+            <div class="card contact">
+                <div class="contact__row" id="contactRow"></div>
+                <p class="contact__hint">프로젝트/링크는 `app/profile.json`만 수정하면 자동으로 반영됩니다.</p>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p id="footerText">© 2026 NE7K. All rights reserved.</p>
+        </footer>
+    </main>
+
+    <noscript>
+        <div class="noscript">
+            이 페이지는 내용을 표시하기 위해 JavaScript가 필요합니다. 브라우저 설정에서 JavaScript를 활성화해 주세요.
+        </div>
+    </noscript>
+
+    <script src="app/main.js" defer></script>
 </body>
 </html>

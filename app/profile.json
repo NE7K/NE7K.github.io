@@ -1,4 +1,113 @@
-[
-  "https://ne7k.github.io/app/profile.jpg",
-  "https://ne7k.github.io/app/IMG.jpg"
-]
+{
+  "site": {
+    "title": "NE7K 포트폴리오",
+    "tagline": "애플리케이션 프로젝트를 문제-해결-성과 중심으로 소개합니다.",
+    "language": "ko"
+  },
+  "profile": {
+    "name": "NE7K",
+    "role": "애플리케이션 개발자",
+    "summary": "사용자 경험을 우선으로, 빠르게 검증하고 안정적으로 운영하는 앱을 만듭니다. 기획-개발-배포-운영 전 과정을 책임지고 개선하는 것을 선호합니다.",
+    "location": "Korea",
+    "email": "your@email.com",
+    "avatar": "app/profile.jpg",
+    "links": [
+      { "label": "GitHub", "url": "https://github.com/NE7K" },
+      { "label": "페이지", "url": "https://ne7k.github.io" }
+    ],
+    "highlights": [
+      "앱 프로젝트 기획→개발→배포 경험",
+      "데이터/상태/네트워크 기반 UI 구현",
+      "성능/접근성/운영 안정성 개선 지향"
+    ]
+  },
+  "skills": {
+    "primary": ["Flutter", "Dart", "Firebase", "REST API", "UI/UX"],
+    "tools": ["Git/GitHub", "Figma", "Notion", "Jira", "CI/CD"]
+  },
+  "projects": [
+    {
+      "name": "HabitFlow",
+      "type": "모바일 앱",
+      "year": "2025",
+      "status": "개발 중",
+      "oneLiner": "습관을 기록하고, 리마인더와 통계로 지속을 돕는 트래커",
+      "problem": "습관 앱이 많지만, 입력 동선이 길거나 보상이 약해 쉽게 이탈합니다.",
+      "solution": "한 화면 입력 + 가벼운 리마인더 + 주/월 통계로 ‘지속’을 설계했습니다.",
+      "impact": ["입력 단계 축소(원탭 기록)", "주/월 리포트로 재방문 유도", "오프라인 캐시로 안정성 향상"],
+      "stack": ["Flutter", "Dart", "SQLite", "Notifications"],
+      "features": [
+        "원탭 습관 체크/메모",
+        "주/월 통계(연속 기록, 성공률)",
+        "리마인더/알림 스케줄",
+        "오프라인 우선 저장"
+      ],
+      "links": {
+        "repo": "",
+        "demo": "",
+        "store": ""
+      },
+      "images": ["app/IMG.jpg"]
+    },
+    {
+      "name": "PocketLedger",
+      "type": "모바일 앱",
+      "year": "2025",
+      "status": "프로토타입",
+      "oneLiner": "가계부를 ‘분류’보다 ‘패턴’ 중심으로 보여주는 비용 분석 앱",
+      "problem": "지출 분류는 귀찮고 누락이 잦아 데이터 품질이 떨어집니다.",
+      "solution": "반복 결제 감지/자동 태깅으로 입력 부담을 줄이고, 패턴 기반 인사이트를 제공합니다.",
+      "impact": ["자동 태깅으로 입력 부담 감소", "반복 결제 알림으로 불필요 지출 인지"],
+      "stack": ["Flutter", "Dart", "Charts", "Local Storage"],
+      "features": [
+        "반복 결제 감지",
+        "자동 태깅/카테고리 추천",
+        "기간별/항목별 차트",
+        "CSV 내보내기"
+      ],
+      "links": {
+        "repo": "",
+        "demo": "",
+        "store": ""
+      },
+      "images": ["app/IMG.jpg"]
+    },
+    {
+      "name": "StudySprint",
+      "type": "웹/앱",
+      "year": "2024",
+      "status": "운영",
+      "oneLiner": "학습 계획을 타임블록으로 만들고, 집중 세션을 기록하는 플래너",
+      "problem": "계획은 세우지만 실행/회고가 연결되지 않아 성장이 느립니다.",
+      "solution": "타임블록(계획) + 포모도로(실행) + 회고(피드백) 루프를 한 곳에서 제공합니다.",
+      "impact": ["계획/실행/회고의 단절 해소", "실행 데이터 기반 회고 템플릿 제공"],
+      "stack": ["Web", "TypeScript", "Firebase"],
+      "features": [
+        "타임블록 캘린더",
+        "포모도로 타이머/세션 로그",
+        "회고 템플릿",
+        "기기 간 동기화"
+      ],
+      "links": {
+        "repo": "",
+        "demo": "",
+        "store": ""
+      },
+      "images": ["app/IMG.jpg"]
+    }
+  ],
+  "experience": [
+    {
+      "title": "개인 프로젝트 / 프리랜스",
+      "org": "NE7K",
+      "period": "2024 — 현재",
+      "details": [
+        "앱 프로토타입 제작 및 사용자 피드백 기반 개선",
+        "배포/운영을 고려한 설정 관리 및 오류 대응 체계 구성"
+      ]
+    }
+  ],
+  "footer": {
+    "text": "© 2026 NE7K. All rights reserved."
+  }
+}
