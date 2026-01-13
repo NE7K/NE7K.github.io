@@ -165,7 +165,11 @@ function renderProjects(target, projects) {
     });
 
     const pillRow = el("div", { class: "pill-row" }, []);
-    stack.forEach((s) => pillRow.appendChild(el("span", { class: "pill", text: safeText(s) })));
+    stack.forEach((s) => {
+      const stackItem = String(s || "");
+      const shouldHighlight = stackItem === "GitAction" || stackItem === "Bidirectional LSTM" || stackItem === "Fl_chart" || stackItem === "Syncfusion_flutter_gauges";
+      pillRow.appendChild(el("span", { class: `pill${shouldHighlight ? " pill--accent" : ""}`, text: safeText(s) }));
+    });
 
     const images = Array.isArray(p?.images) ? p.images.filter(isNonEmptyString) : [];
     const imageEl = images.length > 0 ? el("div", { class: "project__image" }, [

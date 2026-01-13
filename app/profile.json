@@ -6,10 +6,9 @@
   },
   "profile": {
     "name": "NE7K",
-    "role": "애플리케이션 개발자",
-    "summary": "사용자 경험을 우선으로, 빠르게 검증하고 안정적으로 운영하는 앱을 만듭니다. 기획-개발-배포-운영 전 과정을 책임지고 개선하는 것을 선호합니다.",
-    "location": "Korea",
-    "email": "neighborsoft@gmail.com",
+    "role": "애플리케이션, 딥러닝",
+    "summary": "개발 후 유지보수까지 책임지는 개발자",
+    "location": "Bucheon-si, South Korea",
     "phone": "010-9950-5187",
     "discord": "NE7K",
     "avatar": "app/profile.jpg",
@@ -18,28 +17,28 @@
       { "label": "페이지", "url": "https://ne7k.github.io" }
     ],
     "highlights": [
-      "앱 프로젝트 기획→개발→배포 경험",
+      "애플리케이션 프로젝트 기획→ 개발→ 배포 경험",
       "데이터/상태/네트워크 기반 UI 구현",
       "성능/접근성/운영 안정성 개선 지향"
     ]
   },
   "skills": {
-    "primary": ["Flutter", "Dart", "Firebase", "REST API", "UI/UX"],
-    "tools": ["Git/GitHub", "Figma", "Notion", "Jira", "CI/CD"]
+    "primary": ["Flutter(Dart)", "Python", "TensorFlow", "JAVA", "Kotlin", "Docker", "MySQL"],
+    "tools": ["Git/GitHub", "Figma", "Cursor", "CI/CD"]
   },
   "projects": [
     {
-      "name": "UpStock-Python",
+      "name": "UpStock Python",
       "type": "AI/데이터 분석",
       "year": "2025",
       "status": "완료",
-      "oneLiner": "NLP 기반 감성 분석과 시장 지표를 통합하여 미국 증시 심리를 정량화하는 시스템",
-      "problem": "소셜 미디어로 인해 정보 확산 속도가 빨라져 단일 뉴스나 트윗이 시장 변동성을 유발하지만, 이를 정량적으로 평가할 방법이 부족합니다.",
-      "solution": "뉴스/블로그/댓글을 NLP 모델로 분석하고, VIX/RSI/이동평균선 등 기술적 지표를 통합하여 Market Sentiment Index(0-100)를 산출합니다.",
-      "impact": ["시장 심리를 0-100 수치로 정량화", "NLP와 전통적 지표의 통합 분석", "실시간 뉴스 감성 분석 및 예측 결과 DB 저장"],
-      "stack": ["Python", "TensorFlow", "Bidirectional LSTM", "Supabase", "NLP"],
+      "oneLiner": "딥러닝 기반 미국 증시 심리지표 분석 시스템",
+      "problem": "소셜 미디어의 영향력으로 극대화되면서 뉴스나 SNS 게시글 및 댓글이 시장 변동성을 유발, 이를 정량적으로 평가할 방법이 부족",
+      "solution": "뉴스 데이터를 분석하고, VIX/RSI/이동평균선 등 기술적 지표를 통합하여 Market Sentiment Index(0-100)를 산출",
+      "impact": ["시장 심리를 0-100 수치로 정량화", "실시간 뉴스 감성 분석 및 예측 결과 DB 저장"],
+      "stack": ["Python", "TensorFlow", "Bidirectional LSTM", "Supabase", "GitAction", "OpenAI API"],
       "features": [
-        "NLP 기반 뉴스/블로그/댓글 감성 분석",
+        "딥러닝 기반 뉴스 데이터 분석",
         "VIX, RSI, MACD 등 기술적 지표 통합",
         "Market Sentiment Index(0-100) 산출",
         "Supabase를 통한 예측 결과 저장 및 관리"
@@ -49,30 +48,30 @@
         "demo": "",
         "store": ""
       },
-      "images": ["app/IMG.jpg"]
+      "images": ["assets/images/upstock-python.jpg"]
     },
     {
-      "name": "UpStock-Flutter",
+      "name": "UpStock Flutter",
       "type": "모바일 앱",
       "year": "2025",
-      "status": "개발 중",
-      "oneLiner": "UpStock-Python의 모바일 버전으로 미국 증시 심리 지수를 실시간으로 확인할 수 있는 앱",
-      "problem": "주식 시장 심리 분석 도구가 데스크톱 중심이라 이동 중 확인이 어렵습니다.",
-      "solution": "Flutter로 개발하여 iOS/Android에서 Market Sentiment Index를 실시간으로 확인하고, 푸시 알림으로 중요한 시장 변화를 알립니다.",
+      "status": "완료",
+      "oneLiner": "미국 증시 심리 지수를 실시간으로 확인할 수 있는 커뮤니티 애플리케이션",
+      "problem": "주식 시장 심리 분석 도구가 데스크톱 중심이라 이동 중 확인이 어렵고 커뮤니티 기능이 없어 사용자 접근성이 떨어짐",
+      "solution": "Flutter로 개발하여 iOS/Android에서 Market Sentiment Index를 실시간으로 확인하고, 커뮤니티 기능을 추가하여 사용자 접근성을 향상",
       "impact": ["모바일에서 실시간 시장 심리 확인", "크로스 플랫폼 지원으로 개발 효율성 향상"],
-      "stack": ["Flutter", "Dart", "REST API", "Firebase"],
+      "stack": ["Flutter", "Dart", "Firebase", "Supabase", "Fl_chart", "Shimmer", "Syncfusion_flutter_gauges"],
       "features": [
-        "Market Sentiment Index 실시간 조회",
+        "Market Sentiment Index 실시간 조회 및 시각화",
         "뉴스 감성 분석 결과 확인",
-        "시장 지표(VIX, RSI, MACD) 시각화",
-        "푸시 알림으로 중요 시장 이벤트 알림"
+        "미국 증시 대표 지수 실시간 조회",
+        "사용자 커뮤니티 기능"
       ],
       "links": {
         "repo": "https://github.com/NE7K/UpStock-Flutter",
         "demo": "",
         "store": ""
       },
-      "images": ["app/IMG.jpg"]
+      "images": ["assets/images/upstock-flutter.jpg"]
     },
     {
       "name": "KR-School-Database",
@@ -95,36 +94,37 @@
         "demo": "",
         "store": ""
       },
-      "images": ["app/IMG.jpg"]
+      "images": ["assets/images/kr-school-database.jpg"]
     },
     {
-      "name": "Farmy",
-      "type": "웹/앱",
-      "year": "2025",
-      "status": "개발 중",
-      "oneLiner": "농장 관리 및 농작물 생산 효율성을 향상시키는 플랫폼",
-      "problem": "농장 관리 정보가 비체계적이고 수작업으로 관리되어 효율성이 떨어집니다.",
-      "solution": "디지털 플랫폼으로 농작물 재배 일정, 수확 기록, 판매 관리 등을 통합하여 농장 운영을 체계화합니다.",
-      "impact": ["농장 관리 정보의 디지털화", "생산 계획 및 수확 기록 체계화"],
-      "stack": ["Web", "Database"],
+      "name": "PlayFair Encryption and Decryption",
+      "type": "암호학/알고리즘",
+      "year": "2024",
+      "status": "완료",
+      "oneLiner": "PlayFair 암호 알고리즘을 구현한 암호화 및 복호화 프로그램",
+      "problem": "고전적인 암호 알고리즘에 대한 이해와 구현 경험이 부족하며, 암호학의 기초를 학습할 필요가 있습니다.",
+      "solution": "PlayFair 암호 알고리즘을 Python으로 구현하여 텍스트 암호화 및 복호화 기능을 제공하고, 5x5 키 행렬을 활용한 대체 암호 방식을 학습합니다.",
+      "impact": ["암호학 기초 알고리즘의 이해 및 구현 경험", "Python을 활용한 알고리즘 구현 능력 향상"],
+      "stack": ["Python", "C++"],
       "features": [
-        "농작물 재배 일정 관리",
-        "수확 기록 및 통계",
-        "판매 관리"
+        "PlayFair 암호 알고리즘 구현",
+        "텍스트 암호화 및 복호화 기능",
+        "5x5 키 행렬 기반 암호화",
+        "대문자 변환 및 쌍 처리"
       ],
       "links": {
-        "repo": "https://github.com/NE7K/Farmy",
+        "repo": "https://github.com/NE7K/PlayFair-Encryption-and-Decryption",
         "demo": "",
         "store": ""
       },
-      "images": ["app/IMG.jpg"]
+      "images": ["assets/images/playfair.jpg"]
     },
     {
       "name": "StockCopy",
       "type": "앱",
-      "year": "2025",
+      "year": "2026",
       "status": "개발 중",
-      "oneLiner": "주식 거래 전략을 분석하고 공유하는 플랫폼",
+      "oneLiner": "증권사 트레이딩 애플리케이션 카피",
       "problem": "개발 중인 프로젝트입니다.",
       "solution": "개발 중인 프로젝트입니다.",
       "impact": ["개발 중"],
@@ -135,17 +135,17 @@
         "demo": "",
         "store": ""
       },
-      "images": ["app/IMG.jpg"]
+      "images": ["assets/images/project-bin.jpg"]
     }
   ],
   "experience": [
     {
-      "title": "개인 프로젝트 / 프리랜스",
-      "org": "NE7K",
+      "title": "개인 자격증",
+      "org": "장성준(NE7K)",
       "period": "2024 — 현재",
       "details": [
-        "앱 프로토타입 제작 및 사용자 피드백 기반 개선",
-        "배포/운영을 고려한 설정 관리 및 오류 대응 체계 구성"
+        "Meta Frontend Developer Professional Certificate",
+        "Ai prompt engineering"
       ]
     }
   ],
