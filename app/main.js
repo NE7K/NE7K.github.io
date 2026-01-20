@@ -29,52 +29,97 @@ function el(tag, attrs = {}, children = []) {
 }
 
 function updateThemeIcon(theme) {
-  const iconEl = qs(".theme-toggle__icon");
-  if (!iconEl) return;
-  // 현재 테마가 light면 다크 모드로 전환할 수 있도록 달 아이콘 표시
-  // 현재 테마가 dark면 라이트 모드로 전환할 수 있도록 태양 아이콘 표시
-  if (theme === "light") {
-    iconEl.textContent = "🌙";
-  } else {
-    iconEl.textContent = "☀️";
+  try {
+    const iconEl = qs(".theme-toggle__icon");
+    if (!iconEl) return;
+    // 현재 테마가 light면 다크 모드로 전환할 수 있도록 달 아이콘 표시
+    // 현재 테마가 dark면 라이트 모드로 전환할 수 있도록 태양 아이콘 표시
+    if (theme === "light") {
+      iconEl.textContent = "🌙";
+    } else {
+      iconEl.textContent = "☀️";
+    }
+  } catch (e) {
+    console.warn("테마 아이콘 업데이트 실패:", e);
   }
 }
 
 function setTheme(mode) {
-  const html = document.documentElement;
-  if (mode === "light" || mode === "dark") {
-    html.setAttribute("data-theme", mode);
-    localStorage.setItem("theme", mode);
-    updateThemeIcon(mode);
-    return;
+  try {
+    const html = document.documentElement;
+    if (mode === "light" || mode === "dark") {
+      html.setAttribute("data-theme", mode);
+      try {
+        localStorage.setItem("theme", mode);
+      } catch (e) {
+        console.warn("localStorage 저장 실패:", e);
+      }
+      updateThemeIcon(mode);
+      return;
+    }
+    html.removeAttribute("data-theme");
+    try {
+      localStorage.removeItem("theme");
+    } catch (e) {
+      console.warn("localStorage 삭제 실패:", e);
+    }
+    let prefersDark = false;
+    try {
+      prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    } catch (e) {
+      console.warn("matchMedia 확인 실패:", e);
+    }
+    updateThemeIcon(prefersDark ? "dark" : "light");
+  } catch (e) {
+    console.error("테마 설정 실패:", e);
   }
-  html.removeAttribute("data-theme");
-  localStorage.removeItem("theme");
-  const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-  updateThemeIcon(prefersDark ? "dark" : "light");
 }
 
 function initThemeToggle() {
-  const btn = qs("#themeToggle");
-  if (!btn) return;
+  try {
+    const btn = qs("#themeToggle");
+    if (!btn) return;
 
-  const saved = localStorage.getItem("theme");
-  if (saved) {
-    setTheme(saved);
-  } else {
-    const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-    updateThemeIcon(prefersDark ? "dark" : "light");
-  }
-
-  btn.addEventListener("click", () => {
-    const current = document.documentElement.getAttribute("data-theme");
-    if (current === "light") setTheme("dark");
-    else if (current === "dark") setTheme("light");
-    else {
-      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-      setTheme(prefersDark ? "light" : "dark");
+    let saved = null;
+    try {
+      saved = localStorage.getItem("theme");
+    } catch (e) {
+      console.warn("localStorage 읽기 실패:", e);
     }
-  });
+    
+    if (saved) {
+      setTheme(saved);
+    } else {
+      let prefersDark = false;
+      try {
+        prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      } catch (e) {
+        console.warn("matchMedia 확인 실패:", e);
+      }
+      updateThemeIcon(prefersDark ? "dark" : "light");
+    }
+
+    btn.addEventListener("click", () => {
+      try {
+        const current = document.documentElement.getAttribute("data-theme");
+        if (current === "light") setTheme("dark");
+        else if (current === "dark") setTheme("light");
+        else {
+          let prefersDark = false;
+          try {
+            prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+          } catch (e) {
+            console.warn("matchMedia 확인 실패:", e);
+          }
+          setTheme(prefersDark ? "light" : "dark");
+        }
+      } catch (e) {
+        console.error("테마 전환 실패:", e);
+      }
+    });
+  } catch (e) {
+    console.error("테마 토글 초기화 실패:", e);
+  }
 }
 
 function renderPills(target, items, { accentFirst = false } = {}) {
@@ -139,9 +184,16 @@ function renderExperience(target, experience) {
 
 function renderProjects(target, projects) {
   if (!target) return;
-  target.innerHTML = "";
+  try {
+    target.innerHTML = "";
 
-  (projects || []).forEach((p) => {
+    if (!Array.isArray(projects)) {
+      console.warn("프로젝트 데이터가 배열이 아닙니다:", projects);
+      return;
+    }
+
+    projects.forEach((p) => {
+      try {
     const links = p?.links || {};
     const stack = Array.isArray(p?.stack) ? p.stack : [];
     const features = Array.isArray(p?.features) ? p.features : [];
@@ -172,9 +224,31 @@ function renderProjects(target, projects) {
     });
 
     const images = Array.isArray(p?.images) ? p.images.filter(isNonEmptyString) : [];
-    const imageEl = images.length > 0 ? el("div", { class: "project__image" }, [
-      el("img", { src: images[0], alt: safeText(p?.name || "프로젝트 이미지"), loading: "lazy" }),
-    ]) : null;
+    let imageEl = null;
+    if (images.length > 0) {
+      const img = el("img", { 
+        src: images[0], 
+        alt: safeText(p?.name || "프로젝트 이미지"), 
+        loading: "lazy",
+        decoding: "async"
+      });
+      img.addEventListener("error", function() {
+        console.error(`이미지 로드 실패: ${images[0]}`);
+        this.style.display = "none";
+        const parent = this.parentElement;
+        if (parent && parent.classList.contains("project__image")) {
+          parent.style.background = "linear-gradient(135deg, var(--accent), var(--accent2))";
+          parent.style.display = "flex";
+          parent.style.alignItems = "center";
+          parent.style.justifyContent = "center";
+          parent.innerHTML = `<span style="color: rgba(255,255,255,0.8); font-size: 14px;">이미지를 불러올 수 없습니다</span>`;
+        }
+      });
+      img.addEventListener("load", function() {
+        this.style.opacity = "1";
+      });
+      imageEl = el("div", { class: "project__image" }, [img]);
+    }
 
     const card = el("article", { class: "project" }, [
       imageEl,
@@ -209,43 +283,226 @@ function renderProjects(target, projects) {
       ]),
     ]);
 
-    target.appendChild(card);
-  });
+        target.appendChild(card);
+      } catch (e) {
+        console.error("프로젝트 카드 생성 실패:", e, p);
+      }
+    });
+  } catch (e) {
+    console.error("프로젝트 렌더링 실패:", e);
+  }
+}
+
+function renderPersonalInfo(target, profile) {
+  if (!target || !profile) {
+    console.warn("renderPersonalInfo: target 또는 profile이 없습니다.");
+    return;
+  }
+  
+  try {
+    target.innerHTML = "";
+    
+    const personalInfo = profile?.personalInfo || {};
+    if (!personalInfo || Object.keys(personalInfo).length === 0) {
+      console.log("인적사항 데이터가 없습니다.");
+      return;
+    }
+    
+    console.log("인적사항 데이터:", personalInfo);
+    
+    const infoItems = [];
+    
+    // 예시 텍스트인지 확인하는 헬퍼 함수 (더 유연하게)
+    const isExampleText = (text, fieldName) => {
+      if (!text) return true;
+      const trimmed = text.trim();
+      
+      // 빈 문자열 체크
+      if (trimmed === "" || trimmed.length === 0) return true;
+      
+      // 생년월일 필드의 경우
+      if (fieldName === "birthDate") {
+        return trimmed === "YYYY-MM-DD" || trimmed === "yyyy-mm-dd" || trimmed.toLowerCase() === "yyyy-mm-dd";
+      }
+      
+      // 다른 필드의 경우 - 정확히 "예:"로 시작하는 경우만 필터링
+      // "예: " (공백 포함)도 체크하되, 실제 데이터가 "예:"로 시작할 수도 있으므로 더 신중하게
+      const examplePatterns = ["예:", "예: "];
+      for (const pattern of examplePatterns) {
+        if (trimmed.startsWith(pattern) && trimmed.length <= pattern.length + 30) {
+          // "예:" 다음에 30자 이내면 예시 텍스트로 간주
+          return true;
+        }
+      }
+      
+      return false;
+    };
+    
+    // 생년월일
+    if (isNonEmptyString(personalInfo.birthDate)) {
+      const birthDate = personalInfo.birthDate.trim();
+      if (!isExampleText(birthDate, "birthDate")) {
+        infoItems.push({
+          icon: "🎂",
+          label: "생년월일",
+          value: birthDate
+        });
+      } else {
+        console.log("생년월일 필터링됨 (예시 텍스트):", birthDate);
+      }
+    }
+    
+    // 학력
+    if (isNonEmptyString(personalInfo.education)) {
+      const education = personalInfo.education.trim();
+      if (!isExampleText(education, "education")) {
+        infoItems.push({
+          icon: "🎓",
+          label: "학력",
+          value: education
+        });
+      } else {
+        console.log("학력 필터링됨 (예시 텍스트):", education);
+      }
+    }
+    
+    // 경력
+    if (isNonEmptyString(personalInfo.experience)) {
+      const experience = personalInfo.experience.trim();
+      if (!isExampleText(experience, "experience")) {
+        infoItems.push({
+          icon: "💼",
+          label: "경력",
+          value: experience
+        });
+      } else {
+        console.log("경력 필터링됨 (예시 텍스트):", experience);
+      }
+    }
+    
+    // 기타 정보
+    if (isNonEmptyString(personalInfo.other)) {
+      const other = personalInfo.other.trim();
+      if (!isExampleText(other, "other")) {
+        infoItems.push({
+          icon: "⭐",
+          label: "기타",
+          value: other
+        });
+      } else {
+        console.log("기타 정보 필터링됨 (예시 텍스트):", other);
+      }
+    }
+    
+    // 주소
+    if (isNonEmptyString(personalInfo.address)) {
+      const address = personalInfo.address.trim();
+      if (!isExampleText(address, "address")) {
+        infoItems.push({
+          icon: "📍",
+          label: "주소",
+          value: address,
+          isWide: true  // 2칸짜리 카드로 표시
+        });
+      } else {
+        console.log("주소 필터링됨 (예시 텍스트):", address);
+      }
+    }
+    
+    console.log("표시할 인적사항 항목 수:", infoItems.length);
+    
+    // 인적사항이 없으면 반환
+    if (infoItems.length === 0) {
+      return;
+    }
+    
+    // 각 항목을 개별 작은 카드로 표시 (외부 테두리 없이)
+    const personalInfoContainer = el("div", { class: "personal-info-grid" }, 
+      infoItems.map((item) => 
+        el("div", { 
+          class: `personal-info-card${item.isWide ? " personal-info-card--wide" : ""}` 
+        }, [
+          el("div", { class: "personal-info-card__icon", text: item.icon }),
+          el("div", { class: "personal-info-card__content" }, [
+            el("div", { class: "personal-info-card__label", text: item.label }),
+            el("div", { class: "personal-info-card__value", text: item.value })
+          ])
+        ])
+      )
+    );
+    
+    target.appendChild(personalInfoContainer);
+  } catch (e) {
+    console.error("인적사항 렌더링 실패:", e);
+  }
 }
 
 function renderContact(target, profile) {
   if (!target) return;
-  target.innerHTML = "";
+  try {
+    target.innerHTML = "";
 
-  const email = profile?.email;
-  const phone = profile?.phone;
-  const discord = profile?.discord;
-  const links = Array.isArray(profile?.links) ? profile.links : [];
+    const email = profile?.email;
+    const phone = profile?.phone;
+    const discord = profile?.discord;
+    const links = Array.isArray(profile?.links) ? profile.links : [];
 
-  const contactItems = el("div", { class: "pill-row" }, []);
+    const contactItems = el("div", { class: "pill-row" }, []);
 
-  if (isNonEmptyString(phone)) {
-    contactItems.appendChild(el("a", { class: "btn btn--primary", href: `tel:${phone.replace(/-/g, "")}`, text: `📞 ${phone}` }));
+    if (isNonEmptyString(phone)) {
+      try {
+        contactItems.appendChild(el("a", { class: "btn btn--primary", href: `tel:${phone.replace(/-/g, "")}`, text: `📞 ${phone}` }));
+      } catch (e) {
+        console.warn("전화번호 버튼 생성 실패:", e);
+      }
+    }
+    if (isNonEmptyString(email) && !email.includes("your@email.com")) {
+      try {
+        contactItems.appendChild(el("a", { class: "btn", href: `mailto:${email}`, text: `✉️ ${email}` }));
+      } catch (e) {
+        console.warn("이메일 버튼 생성 실패:", e);
+      }
+    }
+    if (isNonEmptyString(discord)) {
+      try {
+        contactItems.appendChild(el("span", { class: "btn", text: `💬 Discord: ${discord}` }));
+      } catch (e) {
+        console.warn("Discord 버튼 생성 실패:", e);
+      }
+    }
+
+    links.forEach((l) => {
+      if (!l || !isNonEmptyString(l.url)) return;
+      try {
+        contactItems.appendChild(el("a", { class: "btn", href: l.url, target: "_blank", rel: "noreferrer", text: safeText(l.label || l.url) }));
+      } catch (e) {
+        console.warn("링크 버튼 생성 실패:", e);
+      }
+    });
+
+    target.appendChild(contactItems);
+  } catch (e) {
+    console.error("연락처 렌더링 실패:", e);
   }
-  if (isNonEmptyString(email) && !email.includes("your@email.com")) {
-    contactItems.appendChild(el("a", { class: "btn", href: `mailto:${email}`, text: `✉️ ${email}` }));
-  }
-  if (isNonEmptyString(discord)) {
-    contactItems.appendChild(el("span", { class: "btn", text: `💬 Discord: ${discord}` }));
-  }
-
-  links.forEach((l) => {
-    if (!l || !isNonEmptyString(l.url)) return;
-    contactItems.appendChild(el("a", { class: "btn", href: l.url, target: "_blank", rel: "noreferrer", text: safeText(l.label || l.url) }));
-  });
-
-  target.appendChild(contactItems);
 }
 
 async function loadData() {
-  const res = await fetch("app/profile.json", { cache: "no-store" });
-  if (!res.ok) throw new Error(`profile.json 로드 실패: ${res.status}`);
-  return await res.json();
+  try {
+    const res = await fetch("app/profile.json", { cache: "no-store" });
+    if (!res.ok) {
+      throw new Error(`profile.json 로드 실패: ${res.status} ${res.statusText}`);
+    }
+    try {
+      return await res.json();
+    } catch (e) {
+      throw new Error(`JSON 파싱 실패: ${e.message}`);
+    }
+  } catch (e) {
+    if (e instanceof TypeError && e.message.includes("fetch")) {
+      throw new Error("네트워크 오류: profile.json 파일을 불러올 수 없습니다.");
+    }
+    throw e;
+  }
 }
 
 function applyData(data) {
@@ -270,9 +527,42 @@ function applyData(data) {
   if (metaEl) {
     metaEl.innerHTML = "";
     const parts = [];
-    if (isNonEmptyString(profile.location)) parts.push(`📍 ${profile.location}`);
-    if (isNonEmptyString(profile.email) && !profile.email.includes("your@email.com")) parts.push(`✉️ ${profile.email}`);
-    if (parts.length) parts.forEach((p) => metaEl.appendChild(el("span", { text: p })));
+    
+    // 위치 정보
+    if (isNonEmptyString(profile.location)) {
+      parts.push(`📍 ${profile.location}`);
+    }
+    
+    // 이메일
+    if (isNonEmptyString(profile.email) && !profile.email.includes("your@email.com")) {
+      parts.push(`✉️ ${profile.email}`);
+    }
+    
+    if (parts.length) {
+      parts.forEach((p) => {
+        try {
+          if (typeof p === "string") {
+            metaEl.appendChild(el("span", { text: p }));
+          } else if (p instanceof Node) {
+            metaEl.appendChild(p);
+          }
+        } catch (e) {
+          console.warn("메타 정보 추가 실패:", e);
+        }
+      });
+    }
+  }
+
+  // 인적사항 별도 렌더링
+  const personalInfoEl = qs("#profilePersonalInfo");
+  if (personalInfoEl) {
+    try {
+      renderPersonalInfo(personalInfoEl, profile);
+    } catch (e) {
+      console.error("인적사항 렌더링 중 오류:", e);
+    }
+  } else {
+    console.warn("인적사항 컨테이너를 찾을 수 없습니다: #profilePersonalInfo");
   }
 
   renderLinks(qs("#profileLinks"), profile.links);
@@ -306,32 +596,76 @@ function showFatal(message) {
 }
 
 function initScrollAnimations() {
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (prefersReducedMotion) return;
+  try {
+    let prefersReducedMotion = false;
+    try {
+      prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    } catch (e) {
+      console.warn("matchMedia 확인 실패:", e);
+    }
+    if (prefersReducedMotion) return;
 
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: "0px 0px -50px 0px",
-  };
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px",
+    };
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("animate-in");
-        observer.unobserve(entry.target);
-      }
-    });
-  }, observerOptions);
+    let observer;
+    try {
+      observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-in");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+    } catch (e) {
+      console.warn("IntersectionObserver 생성 실패:", e);
+      return;
+    }
 
-  const sections = document.querySelectorAll(".section");
-  sections.forEach((section) => observer.observe(section));
+    try {
+      const sections = document.querySelectorAll(".section");
+      sections.forEach((section) => {
+        try {
+          observer.observe(section);
+        } catch (e) {
+          console.warn("섹션 관찰 실패:", e);
+        }
+      });
+    } catch (e) {
+      console.warn("섹션 선택 실패:", e);
+    }
+  } catch (e) {
+    console.error("스크롤 애니메이션 초기화 실패:", e);
+  }
 }
 
-initThemeToggle();
-loadData()
-  .then((data) => {
-    applyData(data);
-    setTimeout(initScrollAnimations, 100);
-  })
-  .catch((e) => showFatal(e?.message || String(e)));
+try {
+  initThemeToggle();
+  loadData()
+    .then((data) => {
+      try {
+        applyData(data);
+        setTimeout(() => {
+          try {
+            initScrollAnimations();
+          } catch (e) {
+            console.error("스크롤 애니메이션 초기화 실패:", e);
+          }
+        }, 100);
+      } catch (e) {
+        console.error("데이터 적용 실패:", e);
+        showFatal(e?.message || String(e));
+      }
+    })
+    .catch((e) => {
+      console.error("데이터 로드 실패:", e);
+      showFatal(e?.message || String(e));
+    });
+} catch (e) {
+  console.error("초기화 실패:", e);
+  showFatal(e?.message || String(e));
+}
 

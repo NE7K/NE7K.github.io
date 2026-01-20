@@ -8,18 +8,20 @@
     "name": "NE7K",
     "role": "애플리케이션, 딥러닝",
     "summary": "개발 후 유지보수까지 책임지는 개발자",
-    "location": "Bucheon-si, South Korea",
+    "location": "",
     "phone": "010-9950-5187",
     "discord": "NE7K",
     "avatar": "app/profile.jpg",
+    "personalInfo": {
+      "birthDate": "2001-06-16",
+      "education": "안양대학교 컴퓨터공학과 졸업",
+      "experience": "신입 개발자",
+      "other": "취미, 관심사 등",
+      "address": "Bucheon-si, South Korea"
+    },
     "links": [
       { "label": "GitHub", "url": "https://github.com/NE7K" },
       { "label": "페이지", "url": "https://ne7k.github.io" }
-    ],
-    "highlights": [
-      "애플리케이션 프로젝트 기획→ 개발→ 배포 경험",
-      "데이터/상태/네트워크 기반 UI 구현",
-      "성능/접근성/운영 안정성 개선 지향"
     ]
   },
   "skills": {

@@ -270,6 +270,7 @@ a:hover{ text-decoration: underline; text-underline-offset: 3px; }
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 0.8s ease-out 0.2s forwards;
+  align-items: center;
 }
 @keyframes fadeInUp{
   from{
@@ -327,6 +328,99 @@ a:hover{ text-decoration: underline; text-underline-offset: 3px; }
   display: flex;
   flex-wrap: wrap;
   gap: 10px 14px;
+}
+.hero__personal-info{
+  margin-top: 20px;
+}
+.personal-info-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+.personal-info-card{
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--accent) 10%, var(--panel-2)),
+    color-mix(in srgb, var(--accent2) 8%, var(--panel-2))
+  );
+  border: 1px solid var(--border);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+              border-color 0.3s ease,
+              background 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.personal-info-card::before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--accent), var(--accent2));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.personal-info-card:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(124, 92, 255, 0.2);
+  border-color: color-mix(in srgb, var(--accent) 25%, var(--border));
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--accent) 15%, var(--panel-2)),
+    color-mix(in srgb, var(--accent2) 12%, var(--panel-2))
+  );
+}
+.personal-info-card:hover::before{
+  opacity: 1;
+}
+.personal-info-card__icon{
+  font-size: 20px;
+  line-height: 1;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  opacity: 0.9;
+  position: relative;
+  z-index: 1;
+}
+.personal-info-card__content{
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  z-index: 1;
+}
+.personal-info-card__label{
+  font-size: 11px;
+  color: var(--muted2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.personal-info-card__value{
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.5;
+  word-break: break-word;
+  font-weight: 500;
+}
+.personal-info-card--wide{
+  grid-column: 1 / -1;
+}
+@media (min-width: 860px){
+  .personal-info-card--wide{
+    grid-column: span 2;
+  }
 }
 
 .btn{
@@ -821,8 +915,21 @@ a:hover{ text-decoration: underline; text-underline-offset: 3px; }
   .nav{ display: inline-flex; }
   .hero{
     grid-template-columns: 1.25fr .75fr;
-    align-items: start;
+    align-items: center;
     padding: 28px;
+  }
+  .hero__personal-info{
+    margin-top: 24px;
+  }
+  .personal-info-grid{
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .personal-info-card{
+    padding: 16px 18px;
+  }
+  .personal-info-card--wide{
+    grid-column: span 2;
   }
   .grid{ grid-template-columns: repeat(2, 1fr); }
   .two-col{ grid-template-columns: repeat(2, 1fr); }
