@@ -200,11 +200,15 @@ function renderProjects(target, projects) {
     const impact = Array.isArray(p?.impact) ? p.impact : [];
 
     const metaParts = [p?.type, p?.year, p?.status].filter(isNonEmptyString).map(String);
+    if (isNonEmptyString(p?.duration)) {
+      metaParts.push(`(${p.duration})`);
+    }
     const meta = metaParts.length ? metaParts.join(" · ") : "";
 
     const linkRow = el("div", { class: "pill-row" }, []);
     const linkItems = [
       { label: "Repo", url: links.repo },
+      { label: "WBS 다운", url: links.workflow },
       { label: "Demo", url: links.demo },
       { label: "Store", url: links.store },
     ].filter((l) => isNonEmptyString(l.url));
@@ -445,6 +449,7 @@ function renderContact(target, profile) {
     const email = profile?.email;
     const phone = profile?.phone;
     const discord = profile?.discord;
+    const discordLink = profile?.discordLink;
     const links = Array.isArray(profile?.links) ? profile.links : [];
 
     const contactItems = el("div", { class: "pill-row" }, []);
@@ -465,7 +470,11 @@ function renderContact(target, profile) {
     }
     if (isNonEmptyString(discord)) {
       try {
-        contactItems.appendChild(el("span", { class: "btn", text: `💬 Discord: ${discord}` }));
+        if (isNonEmptyString(discordLink)) {
+          contactItems.appendChild(el("a", { class: "btn", href: discordLink, target: "_blank", rel: "noreferrer", text: `💬 Discord: ${discord}` }));
+        } else {
+          contactItems.appendChild(el("span", { class: "btn", text: `💬 Discord: ${discord}` }));
+        }
       } catch (e) {
         console.warn("Discord 버튼 생성 실패:", e);
       }
@@ -533,10 +542,7 @@ function applyData(data) {
       parts.push(`📍 ${profile.location}`);
     }
     
-    // 이메일
-    if (isNonEmptyString(profile.email) && !profile.email.includes("your@email.com")) {
-      parts.push(`✉️ ${profile.email}`);
-    }
+    // 소개 섹션에서는 이메일 표시 안 함 (연락 섹션에서만 표시)
     
     if (parts.length) {
       parts.forEach((p) => {
