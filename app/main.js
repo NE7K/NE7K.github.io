@@ -471,23 +471,24 @@ function renderContact(target, profile) {
     if (isNonEmptyString(discord)) {
       try {
         if (isNonEmptyString(discordLink)) {
-          contactItems.appendChild(el("a", { class: "btn", href: discordLink, target: "_blank", rel: "noreferrer", text: `💬 Discord: ${discord}` }));
+          contactItems.appendChild(el("a", { class: "btn", href: discordLink, target: "_blank", rel: "noreferrer", text: `💬 Discord : ${discord}` }));
         } else {
-          contactItems.appendChild(el("span", { class: "btn", text: `💬 Discord: ${discord}` }));
+          contactItems.appendChild(el("span", { class: "btn", text: `💬 Discord : ${discord}` }));
         }
       } catch (e) {
         console.warn("Discord 버튼 생성 실패:", e);
       }
     }
 
-    links.forEach((l) => {
-      if (!l || !isNonEmptyString(l.url)) return;
-      try {
-        contactItems.appendChild(el("a", { class: "btn", href: l.url, target: "_blank", rel: "noreferrer", text: safeText(l.label || l.url) }));
-      } catch (e) {
-        console.warn("링크 버튼 생성 실패:", e);
-      }
-    });
+    // 연락 섹션에서는 links 배열의 링크를 표시하지 않음 (소개 섹션에서만 표시)
+    // links.forEach((l) => {
+    //   if (!l || !isNonEmptyString(l.url)) return;
+    //   try {
+    //     contactItems.appendChild(el("a", { class: "btn", href: l.url, target: "_blank", rel: "noreferrer", text: safeText(l.label || l.url) }));
+    //   } catch (e) {
+    //     console.warn("링크 버튼 생성 실패:", e);
+    //   }
+    // });
 
     target.appendChild(contactItems);
   } catch (e) {
