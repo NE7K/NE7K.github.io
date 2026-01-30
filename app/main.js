@@ -208,7 +208,7 @@ function renderProjects(target, projects) {
     const linkRow = el("div", { class: "pill-row" }, []);
     const linkItems = [
       { label: "Repo", url: links.repo },
-      { label: "WBS 다운", url: links.workflow },
+      { label: "WBS Download", url: links.workflow },
       { label: "Demo", url: links.demo },
       { label: "Store", url: links.store },
     ].filter((l) => isNonEmptyString(l.url));

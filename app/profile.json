@@ -104,39 +104,39 @@
       "images": ["assets/images/kr-school-database.jpg"]
     },
     {
-      "name": "PlayFair Encryption and Decryption",
-      "type": "암호학/알고리즘",
+      "name": "Farmy",
+      "type": "모바일 앱",
       "year": "2024",
       "status": "완료",
-      "duration": "1month",
-      "oneLiner": "PlayFair 암호 알고리즘을 구현한 암호화 및 복호화 프로그램",
-      "problem": "고전적인 암호 알고리즘에 대한 이해와 구현 경험이 부족하며, 암호학의 기초를 학습할 필요가 있습니다.",
-      "solution": "PlayFair 암호 알고리즘을 Python으로 구현하여 텍스트 암호화 및 복호화 기능을 제공하고, 5x5 키 행렬을 활용한 대체 암호 방식을 학습합니다.",
-      "impact": ["암호학 기초 알고리즘의 이해 및 구현 경험", "Python을 활용한 알고리즘 구현 능력 향상"],
-      "stack": ["Python", "C++"],
+      "duration": "2week",
+      "oneLiner": "스마트팜 원격제어 시스템 애플리케이션",
+      "problem": "스마트팜 환경(온도, 습도, 조도, 토양 수분)을 언제 어디서나 모니터링하고 제어할 수 있는 통합 솔루션이 필요했습니다.",
+      "solution": "Android 앱으로 아두이노 실시간 데이터 송출을 구현하고, 스마트팜 ON/OFF 토글 제어와 Chat GPT API 연동으로 맞춤형 조언을 제공하는 시스템을 개발했습니다.",
+      "impact": ["실시간 환경 데이터 모니터링 및 원격 제어", "생성형 AI를 활용한 스마트팜 조언 제공", "안드로이드 앱 개발 및 아두이노 연동 경험"],
+      "stack": ["Java", "Android Studio", "HTML", "CSS", "JavaScript", "Chat GPT API", "Arduino"],
       "features": [
-        "PlayFair 암호 알고리즘 구현",
-        "텍스트 암호화 및 복호화 기능",
-        "5x5 키 행렬 기반 암호화",
-        "대문자 변환 및 쌍 처리"
+        "자체 로그인 및 메인 페이지 이동",
+        "아두이노 데이터 실시간 송출",
+        "스마트팜 연동 관리 ON/OFF 토글",
+        "Chat GPT API 개발 및 연동"
       ],
       "links": {
-        "repo": "https://github.com/NE7K/PlayFair-Encryption-and-Decryption",
+        "repo": "https://github.com/NE7K/Farmy",
         "demo": "",
         "store": ""
       },
-      "images": ["assets/images/playfair.jpg"]
+      "images": ["assets/images/farmpy.jpg"]
     },
     {
       "name": "StockCopy",
-      "type": "앱",
+      "type": "모바일 앱",
       "year": "2026",
       "status": "개발 중",
       "duration": "",
       "oneLiner": "증권사 트레이딩 애플리케이션 카피",
       "problem": "개발 중인 프로젝트입니다.",
       "solution": "개발 중인 프로젝트입니다.",
-      "impact": ["개발 중"],
+      "impact": ["Riverpod을 통한 상태관리 적용", "개발 중"],
       "stack": ["Riverpod"],
       "features": [],
       "links": {
