@@ -7,7 +7,7 @@
   "profile": {
     "name": "장성준",
     "role": "애플리케이션, 딥러닝",
-    "summary": "Flutter를 이용해 애플리케이션을 제작하고 TensorFlow를 이용해 딥러닝 모델을 개발하고 있습니다.",
+    "summary": "Flutter를 이용해 애플리케이션을 제작하고 딥러닝 모델을 개발하고 있습니다.",
     "phone": "010-9950-5187",
     "email": "neighborsoft@gmail.com",
     "discord": "NE7K",
@@ -25,8 +25,8 @@
     ]
   },
   "skills": {
-    "primary": ["Flutter(Dart)", "Python", "TensorFlow", "JAVA", "Kotlin", "Docker", "MySQL"],
-    "tools": ["Git/GitHub", "Figma", "Cursor", "CI/CD"]
+    "primary": ["Flutter (Dart, Riverpod)", "Python (TensorFlow, Pytorch, Pandas)", "JAVA", "Kotlin", "SQL", "C / C++ (OpenGL)", "C#", "HTML/CSS", "JavaScript"],
+    "tools": ["Git/GitHub", "Firebase (NoSQL)", "Supabase", "DBeaver", "Docker", "Figma", "Cursor", "CI/CD"]
   },
   "projects": [
     {
@@ -133,7 +133,7 @@
       "year": "2026",
       "status": "개발 중",
       "duration": "",
-      "oneLiner": "증권사 트레이딩 애플리케이션 카피",
+      "oneLiner": "증권 애플리케이션 카피 프로젝트트",
       "problem": "개발 중인 프로젝트입니다.",
       "solution": "개발 중인 프로젝트입니다.",
       "impact": ["Riverpod을 통한 상태관리 적용", "개발 중"],
@@ -154,7 +154,7 @@
       "period": "현재",
       "details": [
         "Meta Frontend Developer Professional Certificate",
-        "Ai prompt engineering"
+        "Ai prompt engineering LEVEL 2"
       ]
     }
   ],

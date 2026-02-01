@@ -349,7 +349,8 @@ function renderPersonalInfo(target, profile) {
         infoItems.push({
           icon: "🎂",
           label: "생년월일",
-          value: birthDate
+          value: birthDate,
+          revealOnClick: true
         });
       } else {
         console.log("생년월일 필터링됨 (예시 텍스트):", birthDate);
@@ -363,7 +364,8 @@ function renderPersonalInfo(target, profile) {
         infoItems.push({
           icon: "🎓",
           label: "학력",
-          value: education
+          value: education,
+          revealOnClick: true
         });
       } else {
         console.log("학력 필터링됨 (예시 텍스트):", education);
@@ -406,7 +408,8 @@ function renderPersonalInfo(target, profile) {
           icon: "📍",
           label: "주소",
           value: address,
-          isWide: true  // 2칸짜리 카드로 표시
+          isWide: true,
+          revealOnClick: true
         });
       } else {
         console.log("주소 필터링됨 (예시 텍스트):", address);
@@ -420,20 +423,42 @@ function renderPersonalInfo(target, profile) {
       return;
     }
     
-    // 각 항목을 개별 작은 카드로 표시 (외부 테두리 없이)
-    const personalInfoContainer = el("div", { class: "personal-info-grid" }, 
-      infoItems.map((item) => 
-        el("div", { 
-          class: `personal-info-card${item.isWide ? " personal-info-card--wide" : ""}` 
-        }, [
-          el("div", { class: "personal-info-card__icon", text: item.icon }),
-          el("div", { class: "personal-info-card__content" }, [
-            el("div", { class: "personal-info-card__label", text: item.label }),
-            el("div", { class: "personal-info-card__value", text: item.value })
-          ])
+    // 각 항목을 개별 작은 카드로 표시 (생년월일·학력·주소는 클릭 시 값 노출, 경력·기타는 바로 표시)
+    const personalInfoContainer = el("div", { class: "personal-info-grid" }, []);
+    infoItems.forEach((item) => {
+      const showValueDirectly = !item.revealOnClick;
+      const valueEl = el("div", { class: "personal-info-card__value", text: showValueDirectly ? item.value : "클릭하여 보기" });
+      const card = el("div", { 
+        class: `personal-info-card${item.isWide ? " personal-info-card--wide" : ""}`,
+        style: showValueDirectly ? "" : "cursor: pointer;"
+      }, [
+        el("div", { class: "personal-info-card__icon", text: item.icon }),
+        el("div", { class: "personal-info-card__content" }, [
+          el("div", { class: "personal-info-card__label", text: item.label }),
+          valueEl
         ])
-      )
-    );
+      ]);
+      if (item.revealOnClick) {
+        card.setAttribute("role", "button");
+        card.setAttribute("tabIndex", "0");
+        card.setAttribute("aria-label", `${item.label} 클릭하여 보기`);
+        card.addEventListener("click", function revealValue() {
+          valueEl.textContent = item.value;
+          card.removeAttribute("role");
+          card.removeAttribute("tabIndex");
+          card.removeAttribute("aria-label");
+          card.style.cursor = "default";
+          card.removeEventListener("click", revealValue);
+        }, { once: true });
+        card.addEventListener("keydown", function keyReveal(ev) {
+          if (ev.key === "Enter" || ev.key === " ") {
+            ev.preventDefault();
+            card.click();
+          }
+        }, { once: true });
+      }
+      personalInfoContainer.appendChild(card);
+    });
     
     target.appendChild(personalInfoContainer);
   } catch (e) {
@@ -456,14 +481,26 @@ function renderContact(target, profile) {
 
     if (isNonEmptyString(phone)) {
       try {
-        contactItems.appendChild(el("a", { class: "btn btn--primary", href: `tel:${phone.replace(/-/g, "")}`, text: `📞 ${phone}` }));
+        const phoneLink = el("a", { class: "btn btn--primary", href: `tel:${phone.replace(/-/g, "")}`, text: "📞 전화번호" });
+        phoneLink.addEventListener("click", function revealPhone(e) {
+          e.preventDefault();
+          phoneLink.textContent = `📞 ${phone}`;
+          phoneLink.removeEventListener("click", revealPhone);
+        }, { once: true });
+        contactItems.appendChild(phoneLink);
       } catch (e) {
         console.warn("전화번호 버튼 생성 실패:", e);
       }
     }
     if (isNonEmptyString(email) && !email.includes("your@email.com")) {
       try {
-        contactItems.appendChild(el("a", { class: "btn", href: `mailto:${email}`, text: `✉️ ${email}` }));
+        const emailLink = el("a", { class: "btn", href: `mailto:${email}`, text: "✉️ 이메일" });
+        emailLink.addEventListener("click", function revealEmail(e) {
+          e.preventDefault();
+          emailLink.textContent = `✉️ ${email}`;
+          emailLink.removeEventListener("click", revealEmail);
+        }, { once: true });
+        contactItems.appendChild(emailLink);
       } catch (e) {
         console.warn("이메일 버튼 생성 실패:", e);
       }
@@ -471,9 +508,20 @@ function renderContact(target, profile) {
     if (isNonEmptyString(discord)) {
       try {
         if (isNonEmptyString(discordLink)) {
-          contactItems.appendChild(el("a", { class: "btn", href: discordLink, target: "_blank", rel: "noreferrer", text: `💬 Discord : ${discord}` }));
+          const discordLinkEl = el("a", { class: "btn", href: discordLink, target: "_blank", rel: "noreferrer", text: "💬 Discord" });
+          discordLinkEl.addEventListener("click", function revealDiscord(e) {
+            e.preventDefault();
+            discordLinkEl.textContent = `💬 Discord : ${discord}`;
+            discordLinkEl.removeEventListener("click", revealDiscord);
+          }, { once: true });
+          contactItems.appendChild(discordLinkEl);
         } else {
-          contactItems.appendChild(el("span", { class: "btn", text: `💬 Discord : ${discord}` }));
+          const discordSpan = el("span", { class: "btn", text: "💬 Discord" });
+          discordSpan.addEventListener("click", function revealDiscord() {
+            discordSpan.textContent = `💬 Discord : ${discord}`;
+            discordSpan.removeEventListener("click", revealDiscord);
+          }, { once: true });
+          contactItems.appendChild(discordSpan);
         }
       } catch (e) {
         console.warn("Discord 버튼 생성 실패:", e);
