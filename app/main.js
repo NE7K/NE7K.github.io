@@ -11,6 +11,21 @@ function isNonEmptyString(v) {
   return typeof v === "string" && v.trim().length > 0;
 }
 
+/** 클릭 후 정보 노출 시 위로 올라오는 애니메이션 (내부 span만 애니메이션해 .btn 등과 충돌 방지) */
+function playRevealAnimation(element, content) {
+  const inner = document.createElement("span");
+  inner.className = "reveal-inner reveal-init";
+  inner.textContent = content;
+  element.innerHTML = "";
+  element.appendChild(inner);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      inner.classList.remove("reveal-init");
+      inner.classList.add("reveal-appear");
+    });
+  });
+}
+
 function el(tag, attrs = {}, children = []) {
   const node = document.createElement(tag);
   Object.entries(attrs).forEach(([k, v]) => {
@@ -443,7 +458,7 @@ function renderPersonalInfo(target, profile) {
         card.setAttribute("tabIndex", "0");
         card.setAttribute("aria-label", `${item.label} 클릭하여 보기`);
         card.addEventListener("click", function revealValue() {
-          valueEl.textContent = item.value;
+          playRevealAnimation(valueEl, item.value);
           card.removeAttribute("role");
           card.removeAttribute("tabIndex");
           card.removeAttribute("aria-label");
@@ -484,7 +499,7 @@ function renderContact(target, profile) {
         const phoneLink = el("a", { class: "btn btn--primary", href: `tel:${phone.replace(/-/g, "")}`, text: "📞 전화번호" });
         phoneLink.addEventListener("click", function revealPhone(e) {
           e.preventDefault();
-          phoneLink.textContent = `📞 ${phone}`;
+          playRevealAnimation(phoneLink, `📞 ${phone}`);
           phoneLink.removeEventListener("click", revealPhone);
         }, { once: true });
         contactItems.appendChild(phoneLink);
@@ -497,7 +512,7 @@ function renderContact(target, profile) {
         const emailLink = el("a", { class: "btn", href: `mailto:${email}`, text: "✉️ 이메일" });
         emailLink.addEventListener("click", function revealEmail(e) {
           e.preventDefault();
-          emailLink.textContent = `✉️ ${email}`;
+          playRevealAnimation(emailLink, `✉️ ${email}`);
           emailLink.removeEventListener("click", revealEmail);
         }, { once: true });
         contactItems.appendChild(emailLink);
@@ -511,14 +526,14 @@ function renderContact(target, profile) {
           const discordLinkEl = el("a", { class: "btn", href: discordLink, target: "_blank", rel: "noreferrer", text: "💬 Discord" });
           discordLinkEl.addEventListener("click", function revealDiscord(e) {
             e.preventDefault();
-            discordLinkEl.textContent = `💬 Discord : ${discord}`;
+            playRevealAnimation(discordLinkEl, `💬 Discord : ${discord}`);
             discordLinkEl.removeEventListener("click", revealDiscord);
           }, { once: true });
           contactItems.appendChild(discordLinkEl);
         } else {
           const discordSpan = el("span", { class: "btn", text: "💬 Discord" });
           discordSpan.addEventListener("click", function revealDiscord() {
-            discordSpan.textContent = `💬 Discord : ${discord}`;
+            playRevealAnimation(discordSpan, `💬 Discord : ${discord}`);
             discordSpan.removeEventListener("click", revealDiscord);
           }, { once: true });
           contactItems.appendChild(discordSpan);

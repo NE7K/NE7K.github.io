@@ -414,6 +414,7 @@ a:hover{ text-decoration: underline; text-underline-offset: 3px; }
   word-break: break-word;
   font-weight: 500;
 }
+
 .personal-info-card--wide{
   grid-column: 1 / -1;
 }
@@ -497,6 +498,35 @@ a:hover{ text-decoration: underline; text-underline-offset: 3px; }
   font-family: var(--mono);
   font-size: 12px;
   color: var(--muted2);
+}
+
+/* 클릭 후 정보 노출 애니메이션 - 내부 span(.reveal-inner)만 애니메이션해 .btn과 충돌 없음 */
+.reveal-inner {
+  display: inline-block;
+}
+.reveal-inner.reveal-init {
+  opacity: 0;
+  transform: translateY(36px) scale(0.85);
+}
+@keyframes revealAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(36px) scale(0.85);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-6px) scale(1.08);
+  }
+  85% {
+    transform: translateY(2px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.reveal-inner.reveal-appear {
+  animation: revealAppear 1.15s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
 }
 
 .hero__media{
